@@ -215,3 +215,39 @@ namespace UnityEngine.XR.ARFoundation.Samples
 #endif
     }
 }
+public class PrefabImagePairManager : MonoBehaviour
+{
+    [Header("图像-预制体配对配置")]
+    public List<string> imageNames;       // 参考图像库中图像的名称（需完全一致）
+    public List<GameObject> pairedPrefabs; // 对应图像的预制体
+
+    private Dictionary<string, GameObject> _imagePrefabMap = new();
+
+    void Start()
+    {
+        // 初始化图像-预制体映射字典
+        _imagePrefabMap.Clear();
+        for (int i = 0; i < imageNames.Count && i < pairedPrefabs.Count; i++)
+        {
+            string imageName = imageNames[i].Trim();
+            GameObject prefab = pairedPrefabs[i];
+            if (!string.IsNullOrEmpty(imageName) && prefab != null)
+            {
+                if (_imagePrefabMap.ContainsKey(imageName))
+                    Debug.LogWarning($"[{nameof(PrefabImagePairManager)}] 图像名称「{imageName}」重复，请检查配置");
+                else
+                    _imagePrefabMap.Add(imageName, prefab);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 根据图像名称获取对应的预制体
+    /// </summary>
+    public GameObject GetPrefabByImageName(string imageName)
+    {
+        if (_imagePrefabMap.TryGetValue(imageName, out var prefab))
+            return prefab;
+        return null;
+    }
+}

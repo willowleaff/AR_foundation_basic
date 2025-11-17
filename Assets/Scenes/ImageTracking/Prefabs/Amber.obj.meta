@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2785e10656e423f479907b090cc116ab
+guid: 451109eb2fac88844b4f88eff6e4ee26
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -77,12 +77,35 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
-  referencedClips: []
+  referencedClips:
+  - 9bc980d768162c74190e181b8c15465d
+  - 621525841eba36541bd0b3f92467a980
+  - 2a6568ff5febd0846a56f5b7c9d7c65f
   importAnimation: 1
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: Amber(Clone)
+      parentName: 
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Amber_body
+      parentName: Amber(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: amber_face
+      parentName: Amber(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Amber_hair
+      parentName: Amber(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
