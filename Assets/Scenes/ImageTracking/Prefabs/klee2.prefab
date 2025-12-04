@@ -850,7 +850,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3948453853345507026}
   - component: {fileID: 7892964093293624366}
-  - component: {fileID: 8015871790700000702}
   m_Layer: 0
   m_Name: klee2
   m_TagString: Untagged
@@ -896,25 +895,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8015871790700000702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 745310747020600783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8979ed3c6df5ae74a8bbc20cf8996388, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animator: {fileID: 7892964093293624366}
-  _idleAnimationNames:
-  - Falling
-  - Orc Idle
-  - Situps
-  _minInterval: 5
-  _maxInterval: 10
 --- !u!1 &800256948031060286
 GameObject:
   m_ObjectHideFlags: 0
