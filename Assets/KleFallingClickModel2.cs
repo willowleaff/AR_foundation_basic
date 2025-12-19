@@ -1,40 +1,40 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
-/// ×îÖÕ°æ£ºµã»÷Ä£ĞÍ/°´Å¥ ´¥·¢Falling¶¯»­£¨ÊÊÅäÊÖ»ú+±à¼­Æ÷£©
+/// ä¼˜åŒ–ç‰ˆï¼šä»…ç‚¹å‡»/è§¦æ‘¸æ¨¡å‹ è§¦å‘FallingåŠ¨ç”»ï¼ˆé€‚é…æ‰‹æœº+ç¼–è¾‘å™¨ï¼‰
 /// </summary>
 public class KleFallingClickModel : MonoBehaviour
 {
-    [Header("ºËĞÄ¶¯»­ÅäÖÃ")]
+    [Header("æ ¸å¿ƒåŠ¨ç”»é…ç½®")]
     public string fallingTriggerName = "FallingTrigger";
     public string fallingStateName = "Falling";
 
-    [Header("Ä£ĞÍµã»÷ÅäÖÃ£¨ºËĞÄ£©")]
-    public Camera mainCamera; // ÍÏÈë³¡¾°Ö÷Ïà»ú£¨ÈôÎŞÔò×Ô¶¯È¡MainCamera£©
-    public LayerMask modelLayer; // Ñ¡ÔñÄ£ĞÍËùÔÚ²ã£¨±ÜÃâµã»÷ÆäËûÎïÌå´¥·¢£©
+    [Header("æ¨¡å‹ç‚¹å‡»é…ç½®ï¼ˆæ ¸å¿ƒï¼‰")]
+    public Camera mainCamera; // æ‹–å…¥åœºæ™¯ä¸»ç›¸æœºï¼ˆè‹¥æ— åˆ™è‡ªåŠ¨å–MainCameraï¼‰
+    public LayerMask modelLayer; // é€‰æ‹©æ¨¡å‹æ‰€åœ¨å±‚ï¼ˆé¿å…ç‚¹å‡»å…¶ä»–ç‰©ä½“è§¦å‘ï¼‰
 
-    [Header("Ëæ»ú´ı»ú¶¯»­£¨¿ÉÑ¡£©")]
+    [Header("éšæœºå¾…æœºåŠ¨ç”»ï¼ˆå¯é€‰ï¼‰")]
     public string[] idleAnimationNames;
     public float minIdleInterval = 5f;
     public float maxIdleInterval = 10f;
     [Range(0.1f, 0.5f)]
     public float idleCrossFadeDuration = 0.2f;
 
-    [Header("µã»÷·´À¡£¨¿ÉÑ¡£©")]
+    [Header("ç‚¹å‡»åé¦ˆï¼ˆå¯é€‰ï¼‰")]
     public AudioClip clickSound;
     public ParticleSystem clickEffect;
     public Color highlightColor = new Color(1f, 1f, 0.5f, 1f);
     public float highlightDuration = 0.5f;
 
-    // ºËĞÄ×é¼ş
+    // æ ¸å¿ƒç»„ä»¶
     private Animator _animator;
     private AudioSource _audioSource;
     private Renderer[] _modelRenderers;
     private Color[] _originalColors;
 
-    // ×´Ì¬¿ØÖÆ
+    // çŠ¶æ€æ§åˆ¶
     private bool _isFallingPlaying = false;
     private float _nextIdleTime = 0;
     private int _fallingTriggerHash;
@@ -42,13 +42,13 @@ public class KleFallingClickModel : MonoBehaviour
 
     void Awake()
     {
-        // 1. ³õÊ¼»¯Animator£¨¸´ÓÃ°´Å¥´¥·¢³É¹¦µÄÂß¼­£©
+        // 1. åˆå§‹åŒ–Animatorï¼ˆå¤ç”¨æŒ‰é’®è§¦å‘æˆåŠŸçš„é€»è¾‘ï¼‰
         InitAnimatorMobile();
-        // 2. ³õÊ¼»¯·´À¡×é¼ş
+        // 2. åˆå§‹åŒ–åé¦ˆç»„ä»¶
         InitFeedbackMobile();
-        // 3. ³õÊ¼»¯´ı»úÊ±¼ä
+        // 3. åˆå§‹åŒ–å¾…æœºæ—¶é—´
         InitIdleSwitchTime();
-        // 4. ³õÊ¼»¯µã»÷¼ì²âÏà»ú
+        // 4. åˆå§‹åŒ–ç‚¹å‡»æ£€æµ‹ç›¸æœº
         InitClickCamera();
     }
 
@@ -56,17 +56,16 @@ public class KleFallingClickModel : MonoBehaviour
     {
         if (_animator == null || _isFallingPlaying) return;
 
-        // ¼ì²âÄ£ĞÍµã»÷£¨ÓÅÏÈ¼¶×î¸ß£©
+        // âœ… ä»…ä¿ç•™ï¼šæ£€æµ‹æ¨¡å‹ç‚¹å‡»ï¼ˆPCé¼ æ ‡/æ‰‹æœºè§¦æ‘¸éƒ½èµ°è¿™é‡Œï¼‰
         CheckModelClick();
-        // ±£Áô´¥Ãş/´ı»úÂß¼­£¨¿ÉÑ¡£©
-        CheckMobileTouch();
+        // âŒ ç§»é™¤ï¼šCheckMobileTouchï¼ˆå±å¹•ä»»æ„è§¦æ‘¸è§¦å‘çš„é€»è¾‘ï¼‰
         HandleIdleMobile();
     }
 
-    #region 1. ³õÊ¼»¯ºËĞÄ×é¼ş
+    #region 1. åˆå§‹åŒ–æ ¸å¿ƒç»„ä»¶
     private void InitAnimatorMobile()
     {
-        // ÓÅÏÈÕÒ×ÔÉíAnimator£¨°´Å¥´¥·¢³É¹¦µÄÂß¼­£©
+        // ä¼˜å…ˆæ‰¾è‡ªèº«Animatorï¼ˆæŒ‰é’®è§¦å‘æˆåŠŸçš„é€»è¾‘ï¼‰
         _animator = GetComponent<Animator>();
         if (_animator == null)
         {
@@ -75,7 +74,7 @@ public class KleFallingClickModel : MonoBehaviour
 
         if (_animator == null)
         {
-            Debug.LogError("[³õÊ¼»¯] AnimatorÎª¿Õ£¡ÇëÈ·±£½Å±¾¹ÒÔØµ½KleÎïÌå", this);
+            Debug.LogError("[åˆå§‹åŒ–] Animatorä¸ºç©ºï¼è¯·ç¡®ä¿è„šæœ¬æŒ‚è½½åˆ°Kleç‰©ä½“", this);
             enabled = false;
             return;
         }
@@ -90,18 +89,18 @@ public class KleFallingClickModel : MonoBehaviour
         _animator.Rebind();
         _animator.Update(0);
 
-        Debug.Log($"[³õÊ¼»¯] Animator×¼±¸Íê³É£¡Trigger¹şÏ££º{_fallingTriggerHash}");
+        Debug.Log($"[åˆå§‹åŒ–] Animatorå‡†å¤‡å®Œæˆï¼Triggerå“ˆå¸Œï¼š{_fallingTriggerHash}");
     }
 
     private void InitClickCamera()
     {
-        // ×Ô¶¯»ñÈ¡Ö÷Ïà»ú£¨ÈôÎ´ÊÖ¶¯Ö¸¶¨£©
+        // è‡ªåŠ¨è·å–ä¸»ç›¸æœºï¼ˆè‹¥æœªæ‰‹åŠ¨æŒ‡å®šï¼‰
         if (mainCamera == null)
         {
             mainCamera = Camera.main;
             if (mainCamera == null)
             {
-                Debug.LogError("[³õÊ¼»¯] Î´ÕÒµ½Ö÷Ïà»ú£¡ÇëÊÖ¶¯ÍÏÈëMainCamera", this);
+                Debug.LogError("[åˆå§‹åŒ–] æœªæ‰¾åˆ°ä¸»ç›¸æœºï¼è¯·æ‰‹åŠ¨æ‹–å…¥MainCamera", this);
             }
         }
     }
@@ -137,42 +136,42 @@ public class KleFallingClickModel : MonoBehaviour
     }
     #endregion
 
-    #region 2. Ä£ĞÍµã»÷¼ì²â£¨ºËĞÄĞÂÔö£©
+    #region 2. æ¨¡å‹ç‚¹å‡»æ£€æµ‹ï¼ˆæ ¸å¿ƒï¼šä»…ç‚¹å‡»æ¨¡å‹è§¦å‘ï¼‰
     private void CheckModelClick()
     {
-        // ±à¼­Æ÷£ºÊó±ê×ó¼üµã»÷
+        // ç¼–è¾‘å™¨ï¼šé¼ æ ‡å·¦é”®ç‚¹å‡»
         if (Input.GetMouseButtonDown(0))
         {
             if (IsClickOnModel(Input.mousePosition))
             {
-                TriggerFallingCore(); // ¸´ÓÃºËĞÄ´¥·¢Âß¼­
+                TriggerFallingCore(); // å¤ç”¨æ ¸å¿ƒè§¦å‘é€»è¾‘
             }
         }
-        // ÊÖ»ú¶Ë£º´¥Ãşµã»÷
+        // æ‰‹æœºç«¯ï¼šè§¦æ‘¸ç‚¹å‡»ï¼ˆä»…æ£€æµ‹ç¬¬ä¸€ä¸ªè§¦æ‘¸ç‚¹ï¼‰
         else if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             if (IsClickOnModel(Input.GetTouch(0).position))
             {
-                TriggerFallingCore(); // ¸´ÓÃºËĞÄ´¥·¢Âß¼­
+                TriggerFallingCore(); // å¤ç”¨æ ¸å¿ƒè§¦å‘é€»è¾‘
             }
         }
     }
 
     /// <summary>
-    /// ÉäÏß¼ì²â£ºÅĞ¶Ïµã»÷ÊÇ·ñÃüÖĞÄ£ĞÍ
+    /// å°„çº¿æ£€æµ‹ï¼šåˆ¤æ–­ç‚¹å‡»æ˜¯å¦å‘½ä¸­æ¨¡å‹ï¼ˆç²¾å‡†æ£€æµ‹ï¼Œä»…æ¨¡å‹è§¦å‘ï¼‰
     /// </summary>
     private bool IsClickOnModel(Vector2 screenPos)
     {
         if (mainCamera == null) return false;
 
-        // ´ÓÏà»ú·¢ÉäÉäÏßµ½µã»÷Î»ÖÃ
+        // ä»ç›¸æœºå‘å°„å°„çº¿åˆ°ç‚¹å‡»/è§¦æ‘¸ä½ç½®
         Ray ray = mainCamera.ScreenPointToRay(screenPos);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, modelLayer))
         {
-            // ¼ì²âÊÇ·ñÃüÖĞµ±Ç°Ä£ĞÍ£¨×ÔÉí/×ÓÎïÌå£©
+            // æ£€æµ‹æ˜¯å¦å‘½ä¸­å½“å‰æ¨¡å‹ï¼ˆè‡ªèº«/å­ç‰©ä½“ï¼‰
             if (hit.collider.gameObject == gameObject || hit.collider.transform.IsChildOf(transform))
             {
-                Debug.Log("[Ä£ĞÍµã»÷] ÃüÖĞKleÄ£ĞÍ£¬´¥·¢Falling£¡");
+                Debug.Log("[æ¨¡å‹ç‚¹å‡»] å‘½ä¸­Kleæ¨¡å‹ï¼Œè§¦å‘Fallingï¼");
                 return true;
             }
         }
@@ -180,21 +179,21 @@ public class KleFallingClickModel : MonoBehaviour
     }
     #endregion
 
-    #region 3. ºËĞÄ´¥·¢Âß¼­£¨¸´ÓÃ°´Å¥³É¹¦µÄÂß¼­£©
+    #region 3. æ ¸å¿ƒè§¦å‘é€»è¾‘ï¼ˆå¤ç”¨æŒ‰é’®æˆåŠŸçš„é€»è¾‘ï¼‰
     /// <summary>
-    /// ºËĞÄ´¥·¢·½·¨£º°´Å¥/Ä£ĞÍµã»÷ ¶¼µ÷ÓÃ´Ë·½·¨
+    /// æ ¸å¿ƒè§¦å‘æ–¹æ³•ï¼šä»…æ¨¡å‹ç‚¹å‡»/æŒ‰é’®ç‚¹å‡» è°ƒç”¨æ­¤æ–¹æ³•
     /// </summary>
     private void TriggerFallingCore()
     {
         if (_isFallingPlaying)
         {
-            Debug.Log("[´¥·¢] Falling¶¯»­ÕıÔÚ²¥·Å£¬Ìø¹ı");
+            Debug.Log("[è§¦å‘] FallingåŠ¨ç”»æ­£åœ¨æ’­æ”¾ï¼Œè·³è¿‡");
             return;
         }
 
         _isFallingPlaying = true;
 
-        // ¸´ÓÃ°´Å¥´¥·¢³É¹¦µÄÂß¼­
+        // å¤ç”¨æŒ‰é’®è§¦å‘æˆåŠŸçš„é€»è¾‘
         _animator.SetLayerWeight(0, 1f);
         _animator.ResetTrigger(_fallingTriggerHash);
         _animator.Update(0);
@@ -202,16 +201,16 @@ public class KleFallingClickModel : MonoBehaviour
         _animator.Update(Time.deltaTime);
         _animator.SetTrigger(_fallingTriggerHash);
 
-        Debug.Log($"[´¥·¢] Ö´ĞĞFalling Trigger£¡Ãû³Æ£º{fallingTriggerName}");
+        Debug.Log($"[è§¦å‘] æ‰§è¡ŒFalling Triggerï¼åç§°ï¼š{fallingTriggerName}");
 
-        // ²¥·Å·´À¡
+        // æ’­æ”¾åé¦ˆ
         PlayFeedbackMobile();
-        // µÈ´ı¶¯»­½áÊø
+        // ç­‰å¾…åŠ¨ç”»ç»“æŸ
         StartCoroutine(WaitFallingEndMobile());
     }
 
     /// <summary>
-    /// ±£Áô°´Å¥´¥·¢µÄ¹«¿ª·½·¨£¨¼æÈİÔ­ÓĞ°´Å¥£©
+    /// ä¿ç•™æŒ‰é’®è§¦å‘çš„å…¬å¼€æ–¹æ³•ï¼ˆå…¼å®¹åŸæœ‰æŒ‰é’®ï¼‰
     /// </summary>
     public void TriggerFallingByButton()
     {
@@ -219,21 +218,7 @@ public class KleFallingClickModel : MonoBehaviour
     }
     #endregion
 
-    #region 4. ¸¨ÖúÂß¼­£¨±£Áô£©
-    // ¾É´¥Ãş¼ì²â£¨¿ÉÑ¡£¬ÓÅÏÈ¼¶µÍÓÚÄ£ĞÍµã»÷£©
-    private void CheckMobileTouch()
-    {
-        if (Input.touchCount <= 0) return;
-        foreach (Touch touch in Input.touches)
-        {
-            if (touch.phase == TouchPhase.Began && !IsClickOnModel(touch.position))
-            {
-                TriggerFallingCore();
-                break;
-            }
-        }
-    }
-
+    #region 4. è¾…åŠ©é€»è¾‘ï¼ˆä»…ä¿ç•™å¾…æœºå’Œåé¦ˆï¼Œåˆ é™¤å±å¹•è§¦æ‘¸ï¼‰
     private void HandleIdleMobile()
     {
         if (idleAnimationNames == null || idleAnimationNames.Length == 0 || _animator.IsInTransition(0)) return;
@@ -266,12 +251,12 @@ public class KleFallingClickModel : MonoBehaviour
 
         if (!enterFalling)
         {
-            Debug.LogError("[´¥·¢] Î´½øÈëFalling×´Ì¬£¡¼ì²é£º1.TriggerÃû 2.¹ı¶ÉHas Exit Time", this);
+            Debug.LogError("[è§¦å‘] æœªè¿›å…¥FallingçŠ¶æ€ï¼æ£€æŸ¥ï¼š1.Triggerå 2.è¿‡æ¸¡Has Exit Time", this);
             _isFallingPlaying = false;
             yield break;
         }
 
-        Debug.Log("[´¥·¢] Falling¶¯»­¿ªÊ¼²¥·Å£¡");
+        Debug.Log("[è§¦å‘] FallingåŠ¨ç”»å¼€å§‹æ’­æ”¾ï¼");
 
         while (true)
         {
@@ -284,7 +269,7 @@ public class KleFallingClickModel : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.1f);
-        Debug.Log("[´¥·¢] Falling¶¯»­²¥·Å½áÊø£¡");
+        Debug.Log("[è§¦å‘] FallingåŠ¨ç”»æ’­æ”¾ç»“æŸï¼");
 
         _isFallingPlaying = false;
         _animator.ResetTrigger(_fallingTriggerHash);
@@ -322,4 +307,6 @@ public class KleFallingClickModel : MonoBehaviour
         }
     }
     #endregion
+
+    // âŒ å®Œå…¨åˆ é™¤ï¼šCheckMobileTouchæ–¹æ³•ï¼ˆå±å¹•ä»»æ„è§¦æ‘¸è§¦å‘çš„å†—ä½™é€»è¾‘ï¼‰
 }
